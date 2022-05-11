@@ -2,10 +2,20 @@ Package: soundsurfer
 Type: Package
 Title: What the Package Does (Title Case)
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: 
+    person(given = "Landon",
+           family = "Porter",
+           role = c("aut", "cre"),
+           email = "lbp576@utexas.edu",
+     person(given = "Marcelle",
+           family = "Olvera"",
+           role = c("aut", "cre"),
+           email = "meolvera@utexas.edu",
+Maintainer: The package maintainer <lbp576@utexas.edu>
+Description: The function included in this package lets you conduct acoustic analysis including sound descrimination and statistical tests using .wav data files 
+Depends: R (>= 3.5.2)
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+
+
