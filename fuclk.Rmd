@@ -1,0 +1,13 @@
+---
+title: "project"
+author: "Landon Porter"
+date: "5/10/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+fuck this shit 
+```
