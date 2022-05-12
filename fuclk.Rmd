@@ -9,7 +9,6 @@ output: html_document
 
 library(tidyverse)
 library(tuneR, warn.conflicts = F, quietly = T)
-library(ggfortify) 
 library(ggplot2)
 
 
@@ -35,6 +34,15 @@ snd = snd - mean(snd)
 
 # plot waveform
 plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+
+
+
+
+
+
+
 
 
 
