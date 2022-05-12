@@ -7,10 +7,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-libray(tuneR)
 
-f <- " "
-d <- readWave(f)
+library(monitoR)
 
-#fuck this shit 
+fileList <- list.files(path = "C:\\Users\\olver\\Documents\\Repos\\sound_surfer\\data", full.names = TRUE) 
+
+sunwave <-  readWave(fileList[1])
+
+beep <- makeBinTemplate(fileList[1], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+
+
 ```
