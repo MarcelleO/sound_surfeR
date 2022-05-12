@@ -7,7 +7,10 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+libray(tuneR)
 
+f <- " "
+d <- readWave(f)
 
-fuck this shit 
+#fuck this shit 
 ```
