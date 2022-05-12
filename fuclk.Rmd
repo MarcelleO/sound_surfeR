@@ -5,8 +5,39 @@ date: "5/10/2022"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+
+library(tidyverse)
+library(tuneR, warn.conflicts = F, quietly = T)
+library(ggfortify) 
+library(ggplot2)
+
+
+
+# read in audio file
+data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/flat.wav")
+
+
+# extract signal
+snd = data@left
+
+# determine duration
+dur = length(snd)/data@samp.rate
+dur # seconds
+
+fs = data@samp.rate
+fs # Hz
+
+
+
+# demean to remove DC offset
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+
 
 library(monitoR)
 
