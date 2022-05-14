@@ -1,0 +1,344 @@
+---
+title: "new"
+author: "Marcelle"
+date: "5/14/2022"
+output: html_document
+---
+
+
+
+```{r}
+
+library(tidyverse)
+library(tuneR, warn.conflicts = F, quietly = T)
+library(ggfortify) 
+library(ggplot2)
+
+#read in flat audio file
+data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
+
+# extract signal
+snd = data@left
+
+# determine duration and frequency 
+dur = length(snd)/data@samp.rate
+dur # seconds
+fs = data@samp.rate
+fs # Hz
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+
+# window size (in points)
+window=256
+
+# overlap (in points)
+overlap=128
+
+
+
+
+
+# create spectrogram
+library(signal, warn.conflicts = F, quietly = T) # signal processing functions
+library(oce, warn.conflicts = F, quietly = T) # image plotting functions and nice color maps
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+# discard phase information
+P = abs(spec$S)
+# normalize
+P = P/max(P)
+# convert to dB
+P = 10*log10(P)
+# config time axis
+t = spec$t
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# read in spike audio file
+data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/clap1.wav")
+
+
+# extract signal
+snd = data@left
+
+# determine duration and frequency 
+dur = length(snd)/data@samp.rate
+dur # seconds
+
+fs = data@samp.rate
+fs # Hz
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+
+# window size (in points)
+window=256
+
+# overlap (in points)
+overlap=128
+
+
+
+
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+
+# discard phase information
+P = abs(spec$S)
+
+# normalize
+P = P/max(P)
+
+# convert to dB
+P = 10*log10(P)
+
+# config time axis
+t = spec$t
+
+
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# read in beep audio file
+data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/note1.wav")
+
+
+# extract signal
+snd = data@left
+
+# determine duration and frequency 
+dur = length(snd)/data@samp.rate
+dur # seconds
+
+fs = data@samp.rate
+fs # Hz
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+
+# window size (in points)
+window=256
+
+# overlap (in points)
+overlap=128
+
+
+
+
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+# discard phase information
+P = abs(spec$S)
+
+# normalize
+P = P/max(P)
+
+# convert to dB
+P = 10*log10(P)
+
+# config time axis
+t = spec$t
+
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+#now we can use monitoR to make our templates so that we can compare new unknown audio files to files with defined parameters and generate a signal score. 
+library(monitoR)
+
+#template 1 for beep sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[1])
+
+beep1 <- makeBinTemplate(fileList[1], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+
+
+
+
+
+
+#template 2 for beep sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[2])
+
+beep2 <- makeBinTemplate(fileList[2], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+
+
+
+
+#template 1 for clap sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[4])
+
+clap1 <- makeBinTemplate(fileList[4], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+
+
+#template 2 for clap sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[5])
+
+clap2 <- makeBinTemplate(fileList[5], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+
+
+
+#template 1 for note sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[7])
+
+note1 <- makeBinTemplate(fileList[7], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note1", amp.cutoff = (-48))
+
+
+
+#template 2 for note sound 
+fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+
+sunwave <-  readWave(fileList[8])
+
+note2 <- makeBinTemplate(fileList[8], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note2", amp.cutoff = (-40))
+
+
+
+
+#Create a bin for all your templates
+tempbin <- combineBinTemplates(beep1, beep2, clap1, clap2) 
+tempbin
+
+beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
+  
+bscores <- binMatch(beep3, tempbin, warn = FALSE)
+
+bdetects <- findPeaks(bscores)
+bdetects
+
+getDetections(bdetects)
+
+
+
+
+
+note3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/note3.wav")
+clap3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/clap3.wav")
+  
+bscores <- binMatch(clap3, tempbin, warn = FALSE)
+
+bdetects <- findPeaks(bscores)
+bdetects
+
+getDetections(bdetects)
+
+viewSpec(note3)
+
+```
