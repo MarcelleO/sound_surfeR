@@ -9,13 +9,15 @@ output: html_document
 
 ```{r}
 
-library(tidyverse)
+
 library(tuneR, warn.conflicts = F, quietly = T)
 library(ggfortify) 
 library(ggplot2)
 
 #read in flat audio file
-data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
+beep1 <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
+
+
 
 # extract signal
 snd = data@left
@@ -51,6 +53,7 @@ overlap=128
 
 # create spectrogram
 library(signal, warn.conflicts = F, quietly = T) # signal processing functions
+
 library(oce, warn.conflicts = F, quietly = T) # image plotting functions and nice color maps
 
 spec = specgram(x = snd,
@@ -312,12 +315,14 @@ note2 <- makeBinTemplate(fileList[8], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), na
 
 
 
-#Create a bin for all your templates
+#Create a bin with the templates you want to use for automatic matching. 
 tempbin <- combineBinTemplates(beep1, beep2, clap1, clap2) 
 tempbin
 
+#set file path for novel sound file you wish to compair to files within templates
 beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
-  
+
+#use binMatch function to conduct binary matchpoint analysis   
 bscores <- binMatch(beep3, tempbin, warn = FALSE)
 
 bdetects <- findPeaks(bscores)
@@ -339,6 +344,7 @@ bdetects
 
 getDetections(bdetects)
 
-viewSpec(note3)
+
+
 
 ```
