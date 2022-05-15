@@ -14,8 +14,15 @@ library(tuneR, warn.conflicts = F, quietly = T)
 library(ggfortify) 
 library(ggplot2)
 
-#read in flat audio file
-beep1 <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
+#read in audio file
+
+read_wave <- function(beep1){}
+
+
+beep1 
+data <- readWave("beep1.rda")
+
+#data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
 
 
 
