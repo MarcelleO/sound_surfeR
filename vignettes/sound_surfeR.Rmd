@@ -1,0 +1,25 @@
+---
+title: "sound_surfeR Vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{sound_surfeR Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(soundsurfer)
+```
+
+
+
+```{r setup}
+
+```

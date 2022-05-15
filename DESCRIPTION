@@ -1,6 +1,6 @@
 Package: soundsurfer
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Automatic Acoustic Template Matching  
 Version: 0.1.0
 Authors@R: 
     person(given = "Landon",
@@ -11,11 +11,20 @@ Authors@R:
            family = "Olvera"",
            role = c("aut", "cre"),
            email = "meolvera@utexas.edu",
-Maintainer: The package maintainer <lbp576@utexas.edu>
-Description: The function included in this package lets you conduct acoustic analysis including sound descrimination and statistical tests using .wav data files 
+Maintainer: Landon Porter  <lbp576@utexas.edu>
+Description: The functions included in this package lets you conduct acoustic visulization and analysis including feature extraction and identification with .wav data files. 
 Depends: R (>= 3.5.2)
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-
-
+Imports: 
+    tuneR,
+    ggplot2,
+    monitoR,
+    oce,
+    signal,
+    ggfortify
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
