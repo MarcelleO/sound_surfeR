@@ -103,6 +103,9 @@ tempbin
 
 #Matching
 
+The matching process consists of a template repeatedly scored for similarity against a moving window of the audio using the corMatch and binMatch functions.
+
+You must first assign a file path 
 
 ```{r}
 beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
