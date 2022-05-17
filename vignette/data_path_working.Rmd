@@ -17,7 +17,7 @@ library(ggplot2)
 
 
 #read in beep audio file 
-load("data/beep1.rda")
+#load("data/beep1.rda")
 str(beep1)
 
 
@@ -104,8 +104,8 @@ imagep(x = t,
 
 
 # read in clap audio file
-load("data/clap1.rda")
-
+load("../data/clap1.rda")
+clap1
 # extract signal
 snd = clap1@left
 
@@ -114,6 +114,8 @@ dur = length(clap1)/clap1@samp.rate
 dur # seconds
 fs = beep1@samp.rate
 fs # Hz
+
+getwd()
 
 # demean to remove DC offset and clean audio 
 #DC offset = mean amplitude displacement from zero

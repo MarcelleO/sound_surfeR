@@ -285,44 +285,44 @@ Note that the more templates created for one sound improve the accuracy of templ
 #create binary match point template 1 for beep sound 
 
   
-BTemp_beep1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+BTemp_beep1 <- makeBinTemplate("../data/3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 #template 2 for beep sound .
-BTemp_beep2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+BTemp_beep2 <- makeBinTemplate("../data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 #template 1 for clap sound 
-BTemp_clap1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+BTemp_clap1 <- makeBinTemplate("../data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
 
 #template 2 for clap sound 
-BTemp_clap2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+BTemp_clap2 <- makeBinTemplate("../data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-BTemp_note1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+BTemp_note1 <- makeBinTemplate("../data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-BTemp_note2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+BTemp_note2 <- makeBinTemplate("../data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 
 
 
 
 
 #create spectrograph cross correlation template 1 for beep sound 
-CTemp_beep1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+CTemp_beep1 <- makeCorTemplate("../data/3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 #template 2 for beep sound .
-CTemp_beep2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+CTemp_beep2 <- makeCorTemplate("../data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 #template 1 for clap sound 
-CTemp_clap1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+CTemp_clap1 <- makeCorTemplate("../data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
 
 #template 2 for clap sound 
-CTemp_clap2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+CTemp_clap2 <- makeCorTemplate("../data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-CTemp_note1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+CTemp_note1 <- makeCorTemplate("../data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-CTemp_note2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+CTemp_note2 <- makeCorTemplate("../data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 
 
 ```
@@ -348,9 +348,9 @@ Scores for each peak occur when the sound event in the analyzed audio reaches ma
 Spectrogram cross correlation output scores range from 0 to 1 with 0 representing a weak match and calues approaching 1 representing a strong match.
 Score outputs for binary point match are relative to your own data with the highest scores representing the strongest template match.
 ```{r}
-bma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempbin)
+bma("../data/3beep3.wav", tempbin)
 
-cma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempcor)
+cma("../data/3beep3.wav", tempcor)
 
 ```
 
