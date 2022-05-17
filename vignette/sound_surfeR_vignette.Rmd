@@ -94,8 +94,11 @@ Template creation can be one of the most important steps for getting the best re
 Templates can be created using three methods, Automatic, rectangular area selection, and point selection. Each one with increasing accuracy for capturing the desired sound of interest.
 
 Here we will walk through the automatic binary point match method of template creation.
+We will extract our template audios from one data file. Assign a data file path then index the desired wav files from the chosen file to create a template using the makeBinTemplate() function.
+
 Notice that the more templates created for one sound improve the accuracy of template matching.
 
+The makeCorTemplate() function similarly makes templates for the Spectrograph cross correlation method.
 
 ```{r}
 #create template 1 for beep sound 
@@ -120,5 +123,22 @@ Temp_note1 <- makeBinTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0
 Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 ```
 
+#Template list
+Templates can be put into lists. This makes it plausible to match the novel audio to multiple templates at once. In the following code, we create a template for binary point matching using the 
 
+```{r}
+#Create a bin with the templates you want to use for automatic matching. 
+tempbin <- combineBinTemplates(beep1, beep2, clap1, clap2) 
+tempbin
+```
+
+#Matching
+
+The matching process consists of a template repeatedly scored for similarity against a moving window of the audio using the corMatch and binMatch functions.
+
+You must first assign a file path 
+
+```{r}
+beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
+```
 
