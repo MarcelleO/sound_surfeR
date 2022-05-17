@@ -133,8 +133,8 @@ imagep(x = t,
 
 
 
-# read in clap audio file
-load("data/clap1.rda")
+#info for clap audio file 
+str(clap1)
 
 # extract signal
 snd = clap1@left
@@ -190,8 +190,8 @@ imagep(x = t,
 
 
 
-# read in note audio file
-load("data/note1.rda")
+#info for note audio file 
+str(note1)
 
 # extract signal
 snd = note1@left
@@ -289,7 +289,8 @@ Note that the more templates created for one sound improve the accuracy of templ
 
 ```{r}
 #create binary match point template 1 for beep sound 
-Temp_beep1 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+Temp_beep1 <- makeBinTemplate("data/3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "beep1", amp.cutoff = (-25))
 
 #template 2 for beep sound .
 Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
@@ -327,6 +328,8 @@ Temp_note1 <- makeCorTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0
 
 #template 2 for note sound 
 Temp_note2 <- makeCorTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
 ```
 
 #Template list
@@ -343,12 +346,13 @@ tempcor <- combineCorTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2)
 
 #Matching
 
-The matching process consists of a template repeatedly scored for similarity against a moving window of the audio using the corMatch and binMatch functions.
+The matching process consists of a template repeatedly scored for similarity against a moving window of the audio. This can be accomplished by using the bma and cma functions included in the soundsurfeR package. :-) 
 
-You must first assign a file path 
-
+for example: 
 ```{r}
+bma("data/clap3.wav", tempbin)
 
+cma("data/clap3.wav", tempcor)
 
 ```
 
