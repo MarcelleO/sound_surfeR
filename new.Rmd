@@ -19,14 +19,16 @@ library(ggplot2)
 load("data/beep1.rda")
 str(beep1)
 
-# extract signal
-snd = beep1@left
 
 # determine duration and frequency 
 dur = length(beep1)/beep1@samp.rate
 dur # seconds
 fs = beep1@samp.rate
 fs # Hz
+
+
+# extract signal
+snd = beep1@left
 
 # demean to remove DC offset and clean audio 
 #DC offset = mean amplitude displacement from zero
@@ -246,7 +248,6 @@ library(monitoR)
 #create file list path
 fileList <- list.files(path = "data", full.names = TRUE)
 fileList
-
 
 #create template 1 for beep sound 
 Temp_beep1 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))

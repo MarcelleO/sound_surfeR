@@ -16,9 +16,41 @@ knitr::opts_chunk$set(
 
 *collaborators: Landon B. Porter & Marcelle E. Olvera* 
 
+#Background for sound files 
+
+Sound can be viewed as a form of data. For importing sound data into R we use wave objects. 
+Once a sound file is imported, we can use functions within the package to get basic information about the sound file (e.g. duration in seconds and frequency in Hz). 
+In the example below we have imported the beep1 sound file and extracted the signal using the beep1@left code to obtain the data within the appropriate slot and assign it to the object "snd" 
+
+```{r}
+
+#read in beep audio file 
+load("data/beep1.rda")
+str(beep1)
+
+# determine duration and frequency 
+dur = length(beep1)/beep1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+# extract signal
+snd = beep1@left
+
+```
 
 
+Once we have assigned the signal data to the "snd" object we need to clean the audio by removing the DC offset. This is done by subtracting the mean(snd) from the snd object as seen in the code below. NOw we can use the clean "snd" object to plot the waveform. 
 
+```{r}
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+```
 #Background for MonitoR
 
 Automatic acoustic analysis allows for a passive method to analyze acoustic recording. Manually scored data collection is not exempt from human error and inter-rater reliability is rarely a perfect match. Subsequently, manually scoring data is time consuming when hours of data are collected. Commonly available Bio acoustic software is proprietary which makes R an appealing option with an open-source software repository.
