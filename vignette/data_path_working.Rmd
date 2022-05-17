@@ -15,6 +15,7 @@ library(ggfortify)
 library(ggplot2)
 
 
+
 #read in beep audio file 
 load("data/beep1.rda")
 str(beep1)
