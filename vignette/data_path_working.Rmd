@@ -1,0 +1,386 @@
+---
+title: "new"
+author: "Marcelle"
+date: "5/14/2022"
+output: html_document
+---
+
+
+
+```{r}
+
+
+library(tuneR, warn.conflicts = F, quietly = T)
+library(ggfortify) 
+library(ggplot2)
+
+
+#read in beep audio file 
+load("data/beep1.rda")
+str(beep1)
+
+
+
+# determine duration and frequency 
+dur = length(beep1)/beep1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+
+# extract signal
+snd = beep1@left
+class(snd)
+
+
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+
+snd = snd - mean(snd)
+
+#or using our function 
+demean <- function(x){
+  class(x) == "numeric"
+  x <- x-mean(x)
+  return(x)}
+
+snd = demean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+
+
+
+
+
+# create spectrogram
+library(signal, warn.conflicts = F, quietly = T) # signal processing functions
+
+library(oce, warn.conflicts = F, quietly = T) # image plotting functions and nice color maps
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+# discard phase information
+P = abs(spec$S)
+# normalize
+P = P/max(P)
+# convert to dB
+P = 10*log10(P)
+# config time axis
+t = spec$t
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+
+# read in clap audio file
+load("data/clap1.rda")
+
+# extract signal
+snd = clap1@left
+
+# determine duration and frequency 
+dur = length(clap1)/clap1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+
+
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+
+# discard phase information
+P = abs(spec$S)
+# normalize
+P = P/max(P)
+# convert to dB
+P = 10*log10(P)
+# config time axis
+t = spec$t
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# read in note audio file
+load("data/note1.rda")
+
+# extract signal
+snd = note1@left
+
+# determine duration and frequency 
+dur = length(note1)/note1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = snd - mean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+
+#The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+
+
+
+
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+# discard phase information
+P = abs(spec$S)
+
+# normalize
+P = P/max(P)
+
+# convert to dB
+P = 10*log10(P)
+
+# config time axis
+t = spec$t
+
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+
+
+
+
+#now we can use monitoR to make our templates so that we can compare new unknown audio files to files with defined parameters and generate a signal score. 
+
+library(monitoR)
+
+#create file list path
+fileList <- list.files(path = "data", full.names = TRUE)
+fileList
+
+data
+getwd()
+#create binary match point template 1 for beep sound 
+Temp_beep1 <- makeBinTemplate("data/3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+#template 2 for beep sound .
+Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+#template 1 for clap sound 
+Temp_clap1 <- makeBinTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+#template 2 for clap sound 
+Temp_clap2 <- makeBinTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+#template 1 for note sound 
+Temp_note1 <- makeBinTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+
+#template 2 for note sound 
+Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
+
+
+#Create a bin with the templates you want to use for automatic matching. 
+tempbin <- combineBinTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2) 
+str(tempbin)
+
+
+
+
+#set file path for novel sound file you wish to compare to files within templates
+load("data/beep3.rda")
+str(beep3)
+
+#use binMatch function to conduct binary matchpoint analysis   
+bscores <- binMatch("data/3beep3.wav", tempbin, warn = FALSE)
+
+bdetects <- findPeaks(bscores)
+bdetects
+
+getDetections(bdetects)
+
+
+
+
+
+
+#lets try another novel sound file 
+#set file path for novel sound file you wish to compare to files within templates
+load("data/clap3.rda")
+str(clap3)
+
+
+
+#use binMatch function to conduct binary matchpoint analysis   
+bscores <- binMatch("data/clap3.wav", tempbin, warn = FALSE)
+
+bdetects <- findPeaks(bscores)
+bdetects
+
+getDetections(bdetects)
+
+
+#alternatively you can use our new function 
+bma <- function(wav_file, tempbin){
+  class(wav_file) == "wave"
+  class(tempbin) == "binTemplateList"
+  #require monitoR
+  bscores <- binMatch(wav_file, tempbin, warn = FALSE)
+  bdetects <- findPeaks(bscores)
+  scores <- getDetections(bdetects)
+  return(scores)}
+
+bma("data/clap3.wav", tempbin)
+
+
+
+
+#create spectrograph cross correlation template 1 for beep sound 
+Temp_beep1 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+#template 2 for beep sound .
+Temp_beep2 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+#template 1 for clap sound 
+Temp_clap1 <- makeCorTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+#template 2 for clap sound 
+Temp_clap2 <- makeCorTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+#template 1 for note sound 
+Temp_note1 <- makeCorTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+
+#template 2 for note sound 
+Temp_note2 <- makeCorTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
+tempcor <- combineCorTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2)
+
+
+#set file path for novel sound file you wish to compare to files within templates
+load("data/beep3.rda")
+str(beep3)
+
+#use corMatch function to conduct binary matchpoint analysis   
+cscores <- corMatch("data/3beep3.wav", tempcor, warn = FALSE)
+
+cdetects <- findPeaks(cscores)
+cdetects
+
+getDetections(cdetects)
+
+
+#alternatively you can use our new function 
+cma <- function(wav_file, tempcor){
+  class(wav_file) == "wave"
+  class(tempcor) == "CorTemplateList"
+  #require monitoR
+  cscores <- corMatch(wav_file, tempcor, warn = FALSE)
+  cdetects <- findPeaks(cscores)
+  scores <- getDetections(cdetects)
+  return(scores)}
+
+cma("data/clap3.wav", tempcor)
+
+```

@@ -6,11 +6,11 @@ Authors@R:
     person(given = "Landon",
            family = "Porter",
            role = c("aut", "cre"),
-           email = "lbp576@utexas.edu",
+           email = "lbp576@utexas.edu")
      person(given = "Marcelle",
-           family = "Olvera"",
+           family = "Olvera",
            role = c("aut", "cre"),
-           email = "meolvera@utexas.edu",
+           email = "meolvera@utexas.edu")
 Maintainer: Landon Porter  <lbp576@utexas.edu>
 Description: The functions included in this package lets you conduct acoustic visulization and analysis including feature extraction and identification with .wav data files. 
 Depends: R (>= 3.5.2)
@@ -28,3 +28,4 @@ Suggests:
     rmarkdown,
     knitr
 VignetteBuilder: knitr
+RoxygenNote: 7.1.2

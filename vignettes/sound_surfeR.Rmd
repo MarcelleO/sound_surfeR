@@ -1,25 +1,354 @@
 ---
-title: "sound_surfeR Vignette"
+title: "sound_surfeR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{sound_surfeR Vignette}
+  %\VignetteIndexEntry{Put the title of your vignette here}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
+  )
+```
+
+
+*collaborators: Landon B. Porter & Marcelle E. Olvera* 
+
+# Introduction\
+In this package, we have included a dataset that contains nine sound files grouped into 3 types: (beep, clap, note). For each sound type we will use 2 files to create templates and the remaining file to perform binary point matching in this example workflow. 
+We also made 3 new functions:
+
+1) `demean()`: removes DC offset to clean audio  
+2) `bma()`: runs a binary point match analysis  
+3) `cma()`: runs a cross correlation analysis  
+
+
+
+## Package Datasets\
+A.`data`\
+For this project, we have included an example dataset to use with our package: soundsurfeR 
+
+```{r}
+#data folder contains the wave files used in our example workflow. For a list of files withing the data folder use: 
+fileList <- list.files(path = "data", full.names = TRUE)
+fileList
+```
+
+#Background for sound files 
+Sound can be viewed as a form of data. For importing sound data into R we use wave objects. 
+Once a sound file is imported, we can use functions within the package to get basic information about the sound file (e.g. duration in seconds and frequency in Hz). 
+In the example below we have imported the beep1 sound file and extracted the signal using the beep1@left code to obtain the data within the appropriate slot and assign it to the object "snd" 
+
+```{r}
+
+#info for beep audio file 
+str(beep1)
+
+# determine duration and frequency 
+dur = length(beep1)/beep1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+# extract signal
+snd = beep1@left
+
+```
+
+#Visualizing sound 
+Once we have assigned the signal data to the "snd" object we need to clean the audio by removing the DC offset. This is done by subtracting the mean(snd) from the snd object as seen in the code below. NOw we can use the clean "snd" object to plot the waveform. 
+
+```{r}
+# demean to remove DC offset and clean audio 
+#DC offset = mean amplitude displacement from zero
+snd = demean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+```
+
+
+# create spectrogram
+The next step is to define the parameters used to construct the spectrogram. Here I am using values that are appropriate for our sound files. 
+
+```{r}
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+```
+
+
+
+Then using the signal and oce packages we can construct the spectograms for each type of sound file: 
+
+
+```{r}
+library(signal, warn.conflicts = F, quietly = T) # signal processing functions
+
+library(oce, warn.conflicts = F, quietly = T) # image plotting functions and nice color maps
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
 )
+# discard phase information
+P = abs(spec$S)
+# normalize
+P = P/max(P)
+# convert to dB
+P = 10*log10(P)
+# config time axis
+t = spec$t
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+
+
+
+#info for clap audio file 
+str(clap1)
+
+# extract signal
+snd = clap1@left
+
+# determine duration and frequency 
+dur = length(clap1)/clap1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+snd = demean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+
+# discard phase information
+P = abs(spec$S)
+# normalize
+P = P/max(P)
+# convert to dB
+P = 10*log10(P)
+# config time axis
+t = spec$t
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
+
+
+
+
+#info for note audio file 
+str(note1)
+
+# extract signal
+snd = note1@left
+
+# determine duration and frequency 
+dur = length(note1)/note1@samp.rate
+dur # seconds
+fs = beep1@samp.rate
+fs # Hz
+
+snd = demean(snd)
+
+# plot waveform
+plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
+
+# number of points to use for the fft
+nfft=1024
+# window size (in points)
+window=256
+# overlap (in points)
+overlap=128
+
+
+# create spectrogram
+
+spec = specgram(x = snd,
+                n = nfft,
+                Fs = fs,
+                window = window,
+                overlap = overlap
+)
+
+# discard phase information
+P = abs(spec$S)
+
+# normalize
+P = P/max(P)
+
+# convert to dB
+P = 10*log10(P)
+
+# config time axis
+t = spec$t
+
+# plot spectrogram
+imagep(x = t,
+       y = spec$f,
+       z = t(P),
+       col = oce.colorsViridis,
+       ylab = 'Frequency [Hz]',
+       xlab = 'Time [s]',
+       drawPalette = T,
+       decimate = F
+)
+
 ```
 
-```{r setup}
-library(soundsurfer)
+
+#Background for MonitoR
+
+Automatic acoustic analysis allows for a passive method to analyze acoustic recording. Manually scored data collection is not exempt from human error and inter-rater reliability is rarely a perfect match. Subsequently, manually scoring data is time consuming when hours of data are collected. Commonly available Bio acoustic software is proprietary which makes R an appealing option with an open-source software repository.
+
+Automatic acoustic analysis can be feasible through the use of feature extraction. The monitor package performs automatic acoustic template matching via two algorithm approaches, spectrogram cross correlation and binary point matching. 
+
+*Limitation to the cross-correlation approach: a high signal to noise ratio is required. As a results, cross correlation may be appropriate for audio recorded in a lab setting, but not in a field setting. 
+
+Binary point matching plots out ‘on’ and ‘off’ points on a sound template. All values with an amplitude equal or greater than the threshold get a value of 1, and all values below the threshold get a value of 0 The output score represents the difference in mean on point and off point amplitudes.
+
+Spectrogram cross correlation contains location points. The scores are based off Pearson’s correlation coefficient.
+
+
+
+#Viewing Spectrographs
+
+In this package, we include a sample data set, “data” containing three distinct sound types. Two files for each sound type will be used for making templeates while one file will serve as ‘unknown’ audio aka the novel ‘test’ audio. Using the sample data set, we walk through one of the available methods for automatic template matching, binary point match. 
+
+Each audio file can be viewed using the viewSpec() function. 
+
+```{r}
+library(monitoR)
+
+viewSpec(beep1, frq.lim=c(2, 6), start.time=0, page.length=4)
 ```
 
 
+#Template Creation
 
-```{r setup}
+Template creation can be one of the most important steps for getting the best results from this process. These templates serve as the comparison points for the new audio to be analyzed.
+Templates can be created using three methods, Automatic, rectangular area selection, and point selection. Each one with increasing accuracy for capturing the desired sound of interest.
+
+Here we will walk through the automatic binary point match method of template creation and also spectrogram cross correlation method.
+We will extract our template audios from one data file. Assign a data file path then index the desired wav files from the chosen file to create a template using either the makeBinTemplate() function or the makeCorTemplate() function.
+
+Note that the more templates created for one sound improve the accuracy of template matching.
+
+```{r}
+#create binary match point template 1 for beep sound 
+
+  
+BTemp_beep1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+#template 2 for beep sound .
+BTemp_beep2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+#template 1 for clap sound 
+BTemp_clap1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+#template 2 for clap sound 
+BTemp_clap2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+#template 1 for note sound 
+BTemp_note1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+
+#template 2 for note sound 
+BTemp_note2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
+
+
+
+#create spectrograph cross correlation template 1 for beep sound 
+CTemp_beep1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+#template 2 for beep sound .
+CTemp_beep2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+#template 1 for clap sound 
+CTemp_clap1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+#template 2 for clap sound 
+CTemp_clap2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+#template 1 for note sound 
+CTemp_note1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+
+#template 2 for note sound 
+CTemp_note2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
+```
+
+#Template list
+Templates can be put into lists. This makes it plausible to match the novel audio to multiple templates at once. In the following code, we create a template list for binary point matching and spectrogram cross correlation using the  combineBinTemplates and combineCorTemplates function respectivly. 
+
+```{r}
+#Create a list with the respective templates you want to use for the analysis
+
+tempbin <- combineBinTemplates(BTemp_beep1, BTemp_beep2, BTemp_clap1, BTemp_clap2) 
+
+
+tempcor <- combineCorTemplates(CTemp_beep1, CTemp_beep2, CTemp_clap1, CTemp_clap2)
+```
+
+#Matching
+
+The matching process consists of a template repeatedly scored for similarity against a moving window of the audio. This can be accomplished by using the bma and cma functions included in the soundsurfeR package. :-) 
+
+#Data Ouput: Scores
+Scores for each peak occur when the sound event in the analyzed audio reaches maximum alignment with the template.
+Spectrogram cross correlation output scores range from 0 to 1 with 0 representing a weak match and calues approaching 1 representing a strong match.
+Score outputs for binary point match are relative to your own data with the highest scores representing the strongest template match.
+```{r}
+bma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempbin)
+
+cma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempcor)
 
 ```

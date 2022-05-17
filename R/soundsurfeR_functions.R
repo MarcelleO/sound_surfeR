@@ -28,9 +28,6 @@ demean <- function(x){x-mean(x)}
 
 
 
-
-
-
 #Createing a function that conducts spectrograph binary matchpoint analysis----
 #' @title bma
 #' @description This function allows the user to go through the entire analysis of binary match point using a single line of code

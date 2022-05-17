@@ -7,7 +7,7 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -25,13 +25,6 @@ We also made 3 new functions:
 2) `bma()`: runs a binary point match analysis  
 3) `cma()`: runs a cross correlation analysis  
 
-
-```{r setup}
-library(monitoR)
-library(oce)
-library(signal)
-
-```
 
 
 ## Package Datasets\
@@ -290,44 +283,45 @@ Note that the more templates created for one sound improve the accuracy of templ
 ```{r}
 #create binary match point template 1 for beep sound 
 
-Temp_beep1 <- makeBinTemplate("data/3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "beep1", amp.cutoff = (-25))
+  
+BTemp_beep1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep1.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 #template 2 for beep sound .
-Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+BTemp_beep2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 #template 1 for clap sound 
-Temp_clap1 <- makeBinTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+BTemp_clap1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
 
 #template 2 for clap sound 
-Temp_clap2 <- makeBinTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+BTemp_clap2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-Temp_note1 <- makeBinTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+BTemp_note1 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+BTemp_note2 <- makeBinTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 
 
 
 
 
 #create spectrograph cross correlation template 1 for beep sound 
-Temp_beep1 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+CTemp_beep1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 #template 2 for beep sound .
-Temp_beep2 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+CTemp_beep2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 #template 1 for clap sound 
-Temp_clap1 <- makeCorTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+CTemp_clap1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
 
 #template 2 for clap sound 
-Temp_clap2 <- makeCorTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+CTemp_clap2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-Temp_note1 <- makeCorTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+CTemp_note1 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-Temp_note2 <- makeCorTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+CTemp_note2 <- makeCorTemplate("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 
 
 ```
@@ -338,10 +332,10 @@ Templates can be put into lists. This makes it plausible to match the novel audi
 ```{r}
 #Create a list with the respective templates you want to use for the analysis
 
-tempbin <- combineBinTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2) 
+tempbin <- combineBinTemplates(BTemp_beep1, BTemp_beep2, BTemp_clap1, BTemp_clap2) 
 
 
-tempcor <- combineCorTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2)
+tempcor <- combineCorTemplates(CTemp_beep1, CTemp_beep2, CTemp_clap1, CTemp_clap2)
 ```
 
 #Matching
@@ -353,9 +347,9 @@ Scores for each peak occur when the sound event in the analyzed audio reaches ma
 Spectrogram cross correlation output scores range from 0 to 1 with 0 representing a weak match and calues approaching 1 representing a strong match.
 Score outputs for binary point match are relative to your own data with the highest scores representing the strongest template match.
 ```{r}
-bma("data/clap3.wav", tempbin)
+bma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempbin)
 
-cma("data/clap3.wav", tempcor)
+cma("D:\\BACK-UP'\\documents'\\UT AUSTIN\\Spring 2022\\ANT388 (R-coding)\\sound_surfer\\data\\clap3.wav", tempcor)
 
 ```
 
