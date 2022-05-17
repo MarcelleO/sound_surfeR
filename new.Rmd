@@ -29,10 +29,22 @@ fs # Hz
 
 # extract signal
 snd = beep1@left
+class(snd)
+
+
 
 # demean to remove DC offset and clean audio 
 #DC offset = mean amplitude displacement from zero
+
 snd = snd - mean(snd)
+
+#or using our function 
+demean <- function(x){
+  class(x) == "numeric"
+  x <- x-mean(x)
+  return(x)}
+
+snd = demean(snd)
 
 # plot waveform
 plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
@@ -80,10 +92,6 @@ imagep(x = t,
        drawPalette = T,
        decimate = F
 )
-
-
-
-
 
 
 
@@ -249,17 +257,14 @@ library(monitoR)
 fileList <- list.files(path = "data", full.names = TRUE)
 fileList
 
-#create template 1 for beep sound 
+#create binary match point template 1 for beep sound 
 Temp_beep1 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
-
 
 #template 2 for beep sound .
 Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
-
 #template 1 for clap sound 
 Temp_clap1 <- makeBinTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
-
 
 #template 2 for clap sound 
 Temp_clap2 <- makeBinTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
@@ -273,11 +278,12 @@ Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0
 
 
 
-
-
 #Create a bin with the templates you want to use for automatic matching. 
 tempbin <- combineBinTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2) 
-tempbin
+str(tempbin)
+
+
+
 
 #set file path for novel sound file you wish to compare to files within templates
 load("data/beep3.rda")
@@ -292,10 +298,16 @@ bdetects
 getDetections(bdetects)
 
 
+
+
+
+
 #lets try another novel sound file 
 #set file path for novel sound file you wish to compare to files within templates
 load("data/clap3.rda")
 str(clap3)
+
+
 
 #use binMatch function to conduct binary matchpoint analysis   
 bscores <- binMatch("data/clap3.wav", tempbin, warn = FALSE)
@@ -306,6 +318,66 @@ bdetects
 getDetections(bdetects)
 
 
+#alternatively you can use our new function 
+bma <- function(wav_file, tempbin){
+  class(wav_file) == "wave"
+  class(tempbin) == "binTemplateList"
+  #require monitoR
+  bscores <- binMatch(wav_file, tempbin, warn = FALSE)
+  bdetects <- findPeaks(bscores)
+  scores <- getDetections(bdetects)
+  return(scores)}
 
+bma("data/clap3.wav", tempbin)
+
+
+
+
+#create spectrograph cross correlation template 1 for beep sound 
+Temp_beep1 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+
+#template 2 for beep sound .
+Temp_beep2 <- makeCorTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+
+#template 1 for clap sound 
+Temp_clap1 <- makeCorTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
+#template 2 for clap sound 
+Temp_clap2 <- makeCorTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+
+#template 1 for note sound 
+Temp_note1 <- makeCorTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
+
+#template 2 for note sound 
+Temp_note2 <- makeCorTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
+
+
+tempcor <- combineCorTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2)
+
+
+#set file path for novel sound file you wish to compare to files within templates
+load("data/beep3.rda")
+str(beep3)
+
+#use corMatch function to conduct binary matchpoint analysis   
+cscores <- corMatch("data/3beep3.wav", tempcor, warn = FALSE)
+
+cdetects <- findPeaks(cscores)
+cdetects
+
+getDetections(cdetects)
+
+
+#alternatively you can use our new function 
+cma <- function(wav_file, tempcor){
+  class(wav_file) == "wave"
+  class(tempcor) == "CorTemplateList"
+  #require monitoR
+  cscores <- corMatch(wav_file, tempcor, warn = FALSE)
+  cdetects <- findPeaks(cscores)
+  scores <- getDetections(cdetects)
+  return(scores)}
+
+cma("data/clap3.wav", tempcor)
 
 ```

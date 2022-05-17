@@ -9,15 +9,30 @@ vignette: >
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE
+  collapse = TRUE,
+  comment = "#>"
   )
-
 ```
+
 
 *collaborators: Landon B. Porter & Marcelle E. Olvera* 
 
-#Background for sound files 
+# Introduction\
+In this package, we have included a dataset that contains nine sound files grouped into 3 types: (beep, clap, note). For each sound type we will use 2 files to create templates and the remaining file to perform binary point matching in this example workflow. 
 
+1) `demean()`: removes DC offset to clean audio  
+2) `bma()`: runs a binary match point analysis  
+3) `cma()`: runs a cross correlation analysis  
+
+
+```{r setup}
+library(monitoR)
+library(oce)
+library(signal)
+
+```
+
+#Background for sound files 
 Sound can be viewed as a form of data. For importing sound data into R we use wave objects. 
 Once a sound file is imported, we can use functions within the package to get basic information about the sound file (e.g. duration in seconds and frequency in Hz). 
 In the example below we have imported the beep1 sound file and extracted the signal using the beep1@left code to obtain the data within the appropriate slot and assign it to the object "snd" 
@@ -25,7 +40,6 @@ In the example below we have imported the beep1 sound file and extracted the sig
 ```{r}
 
 #read in beep audio file 
-load("data/beep1.rda")
 str(beep1)
 
 # determine duration and frequency 
