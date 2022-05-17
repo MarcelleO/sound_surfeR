@@ -348,7 +348,10 @@ tempcor <- combineCorTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2)
 
 The matching process consists of a template repeatedly scored for similarity against a moving window of the audio. This can be accomplished by using the bma and cma functions included in the soundsurfeR package. :-) 
 
-for example: 
+#Data Ouput: Scores
+Scores for each peak occur when the sound event in the analyzed audio reaches maximum alignment with the template.
+Spectrogram cross correlation output scores range from 0 to 1 with 0 representing a weak match and calues approaching 1 representing a strong match.
+Score outputs for binary point match are relative to your own data with the highest scores representing the strongest template match.
 ```{r}
 bma("data/clap3.wav", tempbin)
 
