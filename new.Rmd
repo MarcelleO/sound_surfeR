@@ -14,25 +14,18 @@ library(tuneR, warn.conflicts = F, quietly = T)
 library(ggfortify) 
 library(ggplot2)
 
-#read in audio file
 
-read_wave <- function(beep1){}
-
-
-beep1 
-data <- readWave("beep1.rda")
-
-#data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep1.wav")
-
-
+#read in beep audio file 
+load("data/beep1.rda")
+str(beep1)
 
 # extract signal
-snd = data@left
+snd = beep1@left
 
 # determine duration and frequency 
-dur = length(snd)/data@samp.rate
+dur = length(beep1)/beep1@samp.rate
 dur # seconds
-fs = data@samp.rate
+fs = beep1@samp.rate
 fs # Hz
 
 # demean to remove DC offset and clean audio 
@@ -47,10 +40,8 @@ plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
 
 # number of points to use for the fft
 nfft=1024
-
 # window size (in points)
 window=256
-
 # overlap (in points)
 overlap=128
 
@@ -100,18 +91,16 @@ imagep(x = t,
 
 
 
-# read in spike audio file
-data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/clap1.wav")
-
+# read in clap audio file
+load("data/clap1.rda")
 
 # extract signal
-snd = data@left
+snd = clap1@left
 
 # determine duration and frequency 
-dur = length(snd)/data@samp.rate
+dur = length(clap1)/clap1@samp.rate
 dur # seconds
-
-fs = data@samp.rate
+fs = beep1@samp.rate
 fs # Hz
 
 # demean to remove DC offset and clean audio 
@@ -126,14 +115,10 @@ plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
 
 # number of points to use for the fft
 nfft=1024
-
 # window size (in points)
 window=256
-
 # overlap (in points)
 overlap=128
-
-
 
 
 
@@ -149,17 +134,12 @@ spec = specgram(x = snd,
 
 # discard phase information
 P = abs(spec$S)
-
 # normalize
 P = P/max(P)
-
 # convert to dB
 P = 10*log10(P)
-
 # config time axis
 t = spec$t
-
-
 # plot spectrogram
 imagep(x = t,
        y = spec$f,
@@ -183,18 +163,16 @@ imagep(x = t,
 
 
 
-# read in beep audio file
-data <- readWave("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/note1.wav")
-
+# read in note audio file
+load("data/note1.rda")
 
 # extract signal
-snd = data@left
+snd = note1@left
 
 # determine duration and frequency 
-dur = length(snd)/data@samp.rate
+dur = length(note1)/note1@samp.rate
 dur # seconds
-
-fs = data@samp.rate
+fs = beep1@samp.rate
 fs # Hz
 
 # demean to remove DC offset and clean audio 
@@ -209,10 +187,8 @@ plot(snd, type = 'l', xlab = 'Samples', ylab = 'Amplitude')
 
 # number of points to use for the fft
 nfft=1024
-
 # window size (in points)
 window=256
-
 # overlap (in points)
 overlap=128
 
@@ -251,6 +227,12 @@ imagep(x = t,
        drawPalette = T,
        decimate = F
 )
+
+
+
+
+
+
 
 
 
@@ -258,79 +240,50 @@ imagep(x = t,
 
 
 #now we can use monitoR to make our templates so that we can compare new unknown audio files to files with defined parameters and generate a signal score. 
+
 library(monitoR)
 
-#template 1 for beep sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-
-sunwave <-  readWave(fileList[1])
-
-beep1 <- makeBinTemplate(fileList[1], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+#create file list path
+fileList <- list.files(path = "data", full.names = TRUE)
+fileList
 
 
+#create template 1 for beep sound 
+Temp_beep1 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 
-
-
-
-#template 2 for beep sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-
-sunwave <-  readWave(fileList[2])
-
-beep2 <- makeBinTemplate(fileList[2], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
-
-
-
+#template 2 for beep sound .
+Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 
 #template 1 for clap sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-
-sunwave <-  readWave(fileList[4])
-
-clap1 <- makeBinTemplate(fileList[4], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
-
+Temp_clap1 <- makeBinTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
 
 
 #template 2 for clap sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-
-sunwave <-  readWave(fileList[5])
-
-clap2 <- makeBinTemplate(fileList[5], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
-
-
-
+Temp_clap2 <- makeBinTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-
-sunwave <-  readWave(fileList[7])
-
-note1 <- makeBinTemplate(fileList[7], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note1", amp.cutoff = (-48))
-
-
+Temp_note1 <- makeBinTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
+Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 
-sunwave <-  readWave(fileList[8])
 
-note2 <- makeBinTemplate(fileList[8], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note2", amp.cutoff = (-40))
 
 
 
 
 #Create a bin with the templates you want to use for automatic matching. 
-tempbin <- combineBinTemplates(beep1, beep2, clap1, clap2) 
+tempbin <- combineBinTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2) 
 tempbin
 
-#set file path for novel sound file you wish to compair to files within templates
-beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
+#set file path for novel sound file you wish to compare to files within templates
+load("data/beep3.rda")
+str(beep3)
 
 #use binMatch function to conduct binary matchpoint analysis   
-bscores <- binMatch(beep3, tempbin, warn = FALSE)
+bscores <- binMatch("data/3beep3.wav", tempbin, warn = FALSE)
 
 bdetects <- findPeaks(bscores)
 bdetects
@@ -338,13 +291,13 @@ bdetects
 getDetections(bdetects)
 
 
+#lets try another novel sound file 
+#set file path for novel sound file you wish to compare to files within templates
+load("data/clap3.rda")
+str(clap3)
 
-
-
-note3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/note3.wav")
-clap3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/clap3.wav")
-  
-bscores <- binMatch(clap3, tempbin, warn = FALSE)
+#use binMatch function to conduct binary matchpoint analysis   
+bscores <- binMatch("data/clap3.wav", tempbin, warn = FALSE)
 
 bdetects <- findPeaks(bscores)
 bdetects

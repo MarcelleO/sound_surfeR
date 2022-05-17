@@ -16,7 +16,10 @@ knitr::opts_chunk$set(
 
 *collaborators: Landon B. Porter & Marcelle E. Olvera* 
 
-#Background
+
+
+
+#Background for MonitoR
 
 Automatic acoustic analysis allows for a passive method to analyze acoustic recording. Manually scored data collection is not exempt from human error and inter-rater reliability is rarely a perfect match. Subsequently, manually scoring data is time consuming when hours of data are collected. Commonly available Bio acoustic software is proprietary which makes R an appealing option with an open-source software repository.
 
@@ -27,6 +30,7 @@ Automatic acoustic analysis can be feasible through the use of feature extractio
 Binary point matching plots out ‘on’ and ‘off’ points on a sound template. All values with an amplitude equal or greater than the threshold get a value of 1, and all values below the threshold get a value of 0 The output score represents the difference in mean on point and off point amplitudes.
 
 Spectrogram cross correlation contains location points. The scores are based off Pearson’s correlation coefficient.
+
 
 
 #Viewing Spectrographs
@@ -45,9 +49,16 @@ The viewSpec() function also has an interactive feature after setting the argume
 
 annos <- viewSpec(survey, interactive=TRUE, annotate=TRUE)
 
+
+
+
+
+
+
+
 #Template Creation
 
-Template creation can be one of the most important steps in getting the best results from this process. These templates serve as the comparison points for the new audio to be analyzed.
+Template creation can be one of the most important steps for getting the best results from this process. These templates serve as the comparison points for the new audio to be analyzed.
 Templates can be created using three methods, Automatic, rectangular area selection, and point selection. Each one with increasing accuracy for capturing the desired sound of interest.
 
 Here we will walk through the automatic binary point match method of template creation.
@@ -55,38 +66,26 @@ Notice that the more templates created for one sound improve the accuracy of tem
 
 
 ```{r}
-#template 1 for beep sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[1])
-beep1 <- makeBinTemplate(fileList[1], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
+#create template 1 for beep sound 
+Temp_beep1 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep1", amp.cutoff = (-25))
 
 
-#template 2 for beep sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[2])
-beep2 <- makeBinTemplate(fileList[2], frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
+#template 2 for beep sound .
+Temp_beep2 <- makeBinTemplate("data/3beep2.wav", frq.lim = c(3, 6), t.lim = c(0, .7), name = "3beep2", amp.cutoff = (-25))
 
 
 #template 1 for clap sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[4])
-clap1 <- makeBinTemplate(fileList[4], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+Temp_clap1 <- makeBinTemplate("data/clap1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap1", amp.cutoff = (-25))
+
 
 #template 2 for clap sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[5])
-clap2 <- makeBinTemplate(fileList[5], frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
+Temp_clap2 <- makeBinTemplate("data/clap2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "clap2", amp.cutoff = (-25))
 
 #template 1 for note sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[7])
-note1 <- makeBinTemplate(fileList[7], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note1", amp.cutoff = (-48))
+Temp_note1 <- makeBinTemplate("data/note1.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note1", amp.cutoff = (-25))
 
 #template 2 for note sound 
-fileList <- list.files(path = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data", full.names = TRUE)
-sunwave <-  readWave(fileList[8])
-note2 <- makeBinTemplate(fileList[8], frq.lim = c(0.9, 1.2), t.lim = c(0, 1), name = "note2", amp.cutoff = (-40))
-
+Temp_note2 <- makeBinTemplate("data/note2.wav", frq.lim = c(0.1, 6), t.lim = c(0, .5), name = "note2", amp.cutoff = (-25))
 ```
 
 
