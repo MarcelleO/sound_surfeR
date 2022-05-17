@@ -128,7 +128,7 @@ Templates can be put into lists. This makes it plausible to match the novel audi
 
 ```{r}
 #Create a bin with the templates you want to use for automatic matching. 
-tempbin <- combineBinTemplates(beep1, beep2, clap1, clap2) 
+tempbin <- combineBinTemplates(Temp_beep1, Temp_beep2, Temp_clap1, Temp_clap2) 
 tempbin
 ```
 
@@ -139,6 +139,8 @@ The matching process consists of a template repeatedly scored for similarity aga
 You must first assign a file path 
 
 ```{r}
-beep3 <- file.path("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer/data/3beep3.wav")
+#set file path for novel sound file you wish to compare to files within templates
+load("data/beep3.rda")
+
 ```
 
