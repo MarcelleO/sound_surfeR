@@ -2,15 +2,7 @@ Package: soundsurfer
 Type: Package
 Title: Automatic Acoustic Template Matching  
 Version: 0.1.0
-Authors@R: 
-    person(given = "Landon",
-           family = "Porter",
-           role = c("aut", "cre"),
-           email = "lbp576@utexas.edu")
-     person(given = "Marcelle",
-           family = "Olvera",
-           role = c("aut", "cre"),
-           email = "meolvera@utexas.edu")
+Author: Marcelle Olvera [aut]
 Maintainer: Landon Porter  <lbp576@utexas.edu>
 Description: The functions included in this package lets you conduct acoustic visulization and analysis including feature extraction and identification with .wav data files. 
 Depends: R (>= 3.5.2)
