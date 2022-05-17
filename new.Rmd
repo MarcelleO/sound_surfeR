@@ -8,6 +8,8 @@ output: html_document
 
 
 ```{r}
+setwd("D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer")
+getwd()
 
 
 library(tuneR, warn.conflicts = F, quietly = T)

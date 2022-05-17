@@ -10,7 +10,8 @@ vignette: >
 ```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  root.dir = "D:/BACK-UP'/documents'/UT AUSTIN/Spring 2022/ANT388 (R-coding)/sound_surfer"
   )
 ```
 
@@ -33,6 +34,7 @@ A.`data`\
 For this project, we have included an example dataset to use with our package: soundsurfeR 
 
 ```{r}
+library(soundsurfer)
 #data folder contains the wave files used in our example workflow. For a list of files withing the data folder use: 
 fileList <- list.files(path = "data", full.names = TRUE)
 fileList
@@ -44,9 +46,12 @@ Once a sound file is imported, we can use functions within the package to get ba
 In the example below we have imported the beep1 sound file and extracted the signal using the beep1@left code to obtain the data within the appropriate slot and assign it to the object "snd" 
 
 ```{r}
-
+library(tuneR)
+beep1 = readWave("../data/3beep1.wav")
 #info for beep audio file 
 str(beep1)
+
+
 
 # determine duration and frequency 
 dur = length(beep1)/beep1@samp.rate
@@ -56,6 +61,7 @@ fs # Hz
 
 # extract signal
 snd = beep1@left
+
 
 ```
 

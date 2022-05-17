@@ -71,4 +71,3 @@ cma <- function(wav_file, tempcor){
 #' @examples # sample code
 
 # function to optimize workflow for cross correlation template analysis----
-
